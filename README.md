@@ -8,5 +8,5 @@ Visual Studio Community
 or Visual Studio Code and .Net SDK
 
 
-There are no changes needed, The out put will be under log files. the same can be understand from appsettings.json
+There are no changes needed, The out put will be under log files. the same is mentioned in appsettings.json
 
