@@ -23,10 +23,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BidoneCodingTest.Domain\BidoneCodingTest.Domain.csproj" />
+    <ProjectReference Include="..\CodingTest.BLL\CodingTest.BLL.csproj" />
+    <ProjectReference Include="..\CodingTest.DAL\CodingTest.DAL.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="logs\" />
+    <Folder Include="LiteDb\" />
   </ItemGroup>
 
 </Project>

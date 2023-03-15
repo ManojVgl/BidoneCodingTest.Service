@@ -1,7 +1,9 @@
 ﻿using BidoneCodingTest.Domain.TestModel;
+using CodingTest.BLL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,19 +14,19 @@ namespace BidoneCodingTest.Service.Controllers
     public class BidOneTestController : ControllerBase
     {
         private readonly ILogger<BidOneTestController> _logger;
-        public BidOneTestController(ILogger<BidOneTestController>  logger
-            
-            ) {
-
+        private readonly IServices<ProfileService> _services   ;
+        public BidOneTestController(ILogger<BidOneTestController>  logger, IServices<ProfileService> services) {
             _logger = logger;
+            _services = services;
         }
 
 
         // GET: api/<BidOneTestController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Profile> Get()
         {
-            return new string[] { "value1", "value2" };
+            return  _services.Service.FindAll();
+
         }
 
         // GET api/<BidOneTestController>/5
@@ -44,10 +46,41 @@ namespace BidoneCodingTest.Service.Controllers
                 _logger.LogInformation("SaveProfile...failed");
                 return BadRequest("Error");
             }
-            _logger.LogInformation(JsonConvert.SerializeObject(profile));
-            _logger.LogInformation("SaveProfile...End");
-            var result = "The profile has been saved";
-            return Ok(result);
+           
+            //log the file
+       
+                _logger.LogInformation(JsonConvert.SerializeObject(profile));
+                _logger.LogInformation("SaveProfile...End");
+            //var result = "The profile has been saved";
+            //return Ok(result);
+
+            //Save to liteDB
+            _services.Service.Insert(profile);
+
+            //save to
+
+            string json = System.Text.Json.JsonSerializer.Serialize(profile);
+            var size = json.Length * sizeof(Char);
+
+            if (size < 20000)
+            {
+                string filePath = @"C:\Temp";
+                string fileName = Path.GetRandomFileName();
+                try
+                {
+                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(filePath, fileName)))
+                        await outputFile.WriteAsync(json);
+                    return Ok();
+                }
+                catch (Exception)
+                {
+                    //INSERT LOGGING CODE HERE - TO CAPTURE THE EXCEPTION
+                    return BadRequest("Unspecified create error"); //Purposely being ambiguous or obfuscating the actual error and file path.
+                }
+            }
+            else
+                return BadRequest("Error: Malformed data sent.");
+           
         }
 
         // PUT api/<BidOneTestController>/5

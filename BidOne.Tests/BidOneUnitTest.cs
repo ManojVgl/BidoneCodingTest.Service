@@ -6,6 +6,7 @@ namespace BidOne.Tests
     using BidoneCodingTest.Domain;
     using BidoneCodingTest.Domain.TestModel;
     using BidoneCodingTest.Service.Controllers;
+    using CodingTest.BLL;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -20,13 +21,14 @@ namespace BidOne.Tests
         [Fact]
         public async void SaveProfile()
         {
-
-            var mock = new Mock<ILogger<BidOneTestController>>();
+            
+             var mock = new Mock<ILogger<BidOneTestController>>();
             ILogger<BidOneTestController> logger = mock.Object;
-
+            var mock2= new Mock<IServices<ProfileService>>();
+     
             //or use this short equivalent 
             logger = Mock.Of<ILogger<BidOneTestController>>();
-            var bidoneTestController = new BidOneTestController(logger);
+            var bidoneTestController = new BidOneTestController(logger, mock2.Object);
             Profile profile = new Profile(){
                    FirstName= "Manoj",
                    LastName= "Madhavan"

@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BidoneCodingTest.Domain\BidoneCodingTest.Domain.csproj" />
     <ProjectReference Include="..\BidoneCodingTest.Service\BidoneCodingTest.Service.csproj" />
+    <ProjectReference Include="..\CodingTest.BLL\CodingTest.BLL.csproj" />
   </ItemGroup>
 
 </Project>

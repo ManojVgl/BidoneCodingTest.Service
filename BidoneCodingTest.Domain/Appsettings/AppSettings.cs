@@ -4,5 +4,6 @@
     {
         public AppSettings() { }
         public string Path { get; set; }
+        public LiteDbOptions LiteDbOptions { get; set; }
     }
 }
